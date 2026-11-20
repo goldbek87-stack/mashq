@@ -157,6 +157,13 @@ footer{color:var(--mut);font-size:13px;padding-bottom:90px!important}
   <div class="card" id="rules"></div>
 </div></section>
 
+<section class="band" style="padding-top:0"><div class="wrap"><div class="card">
+  <h3>Zaxira nusxa</h3>
+  <p class="sub" style="margin-bottom:10px">Ilova yangilanganda belgilar saqlanib qoladi. Lekin telefon almashsa yoki ilova o'chirilsa, oyda bir marta zaxira olib qo'ying: «Zaxira olish»ni bosing va matnni Telegram'ga yuboring. Tiklash uchun matnni shu yerga joylab, «Tiklash»ni bosing.</p>
+  <textarea id="bkTxt" rows="3" style="width:100%;font:13px/1.4 monospace;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:10px" aria-label="Zaxira matni"></textarea>
+  <div class="ctrl" style="margin-top:10px"><button class="btn" id="bkMake">Zaxira olish</button><button class="btn ghost" id="bkLoad">Tiklash</button><span id="bkMsg" class="sub" style="margin:0"></span></div>
+</div></div></section>
+
 <footer class="band" style="padding-top:0"><div class="wrap">Belgilar va vazn yozuvlari faqat shu telefonda saqlanadi.</div></footer>
 <div id="mini" role="timer"><b id="mBig">0:00</b><span id="mLab"></span><button id="mStop">To'xtatish</button></div>
 
@@ -299,9 +306,15 @@ const fig=n=>n?`<svg class="an" data-an="${n}" viewBox="0 0 200 160" role="img" 
 const vlink=q=>`<a class="vid" href="${yt(q)}" target="_blank" rel="noopener">${YTI}Videoda ko'rish</a>`;
 
 /* ---------- Holat ---------- */
+/* Ma'lumot kaliti O'ZGARMAYDI — yangi versiyalar eski belgilarni shu yerdan o'qiydi.
+   Ilova ichida qo'shimcha nusxa Capacitor Preferences'da ham saqlanadi. */
+const KEY='uyMashq2',DATA_VER=1;
 let S={who:'son',week:1,data:{}};
-try{const s=JSON.parse(localStorage.getItem('uyMashq2'));if(s)S=Object.assign(S,s)}catch(e){}
-const save=()=>{try{localStorage.setItem('uyMashq2',JSON.stringify(S))}catch(e){}};
+const merge=s=>{if(s&&typeof s==='object'){S=Object.assign(S,s);S.data=S.data||{}}};
+try{merge(JSON.parse(localStorage.getItem(KEY)||localStorage.getItem('uyMashq1')))}catch(e){}
+const PREF=(()=>{try{return window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.Preferences}catch(e){return null}})();
+const save=()=>{S.v=DATA_VER;const j=JSON.stringify(S);try{localStorage.setItem(KEY,j)}catch(e){}
+  if(PREF)try{PREF.set({key:KEY,value:j}).catch(()=>{})}catch(e){}};
 const todayIdx=(new Date().getDay()+6)%7;
 let day=todayIdx;
 const iso=d=>{const z=new Date(d.getTime()-d.getTimezoneOffset()*6e4);return z.toISOString().slice(0,10)};
@@ -464,8 +477,16 @@ $('week').innerHTML=Array.from({length:8},(_,i)=>`<option value="${i+1}">${i+1}-
 $('week').onchange=()=>{S.week=+$('week').value;save();renderAll()};
 $('pSon').onclick=()=>{S.who='son';save();stopT();renderAll()};
 $('pDad').onclick=()=>{S.who='dad';save();stopT();renderAll()};
+/* ---------- Zaxira nusxa ---------- */
+const BK=$('bkTxt'),bkMsg=t=>{$('bkMsg').textContent=t};
+$('bkMake').onclick=()=>{BK.value=JSON.stringify(S);BK.focus();BK.select();
+  try{navigator.clipboard.writeText(BK.value).then(()=>bkMsg("Nusxa olindi. Telegram'dagi «Saqlangan xabarlar»ga yuborib qo'ying."),()=>bkMsg("Matnni belgilab, nusxa oling."))}catch(e){bkMsg("Matnni belgilab, nusxa oling.")}};
+$('bkLoad').onclick=()=>{try{const s=JSON.parse(BK.value.trim());if(!s.data)throw 0;S={who:'son',week:1,data:{}};merge(s);save();renderAll();bkMsg("Tiklandi ✓ Barcha belgilar va vaznlar qaytdi.")}catch(e){bkMsg("Matn noto'g'ri. Zaxira nusxani to'liq joylashtiring.")}};
+
 renderAll();
 requestAnimationFrame(tick);
+// localStorage bo'sh bo'lsa (masalan, tizim tozalagan bo'lsa), Preferences'dagi nusxadan tiklash
+if(PREF&&!Object.keys(S.data).length)try{PREF.get({key:KEY}).then(r=>{if(r&&r.value){merge(JSON.parse(r.value));save();renderAll()}}).catch(()=>{})}catch(e){}
 }
 </script>
 </body>
