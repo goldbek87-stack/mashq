@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uy mashg'ulotlari</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: shaxsiy murabbiy — qisqa, aniq, dalda beruvchi, oilaviy
+   IDEA: sport maktabining mashg'ulot daftari: bugungi kartochka, taymer, jurnal
+   PICTURE: bugungi mashg'ulot (animatsiyali mashqlar) + katta taymer
+   COLOUR and TYPE: oq zamin, qizil-pomidor bosh band, moviy-yashil yordamchi, sariq urg'u; Archivo + Inter
+   LAYOUT: bosh band -> (mashg'ulot | taymer+odatlar) -> hafta -> vazn jurnali -> qoidalar; 900px dan past ustma-ust */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#121417);--ink:light-dark(#15171a,#eef0f2);--mut:light-dark(#5d636b,#a3aab3);
+--card:light-dark(#f4f5f6,#1c1f24);--line:light-dark(#e2e4e7,#2c3037);
+--red:light-dark(#e2432a,#e8553d);--teal:light-dark(#0e6f68,#3fb3a8);--yel:#ffd23f;--onred:#fff}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3,.big{font-family:Archivo,Inter,sans-serif;letter-spacing:-.01em}
+.band{padding:clamp(20px,3.5vw,48px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+header{background:var(--red);color:var(--onred);padding-top:max(env(safe-area-inset-top),20px)}
+header h1{font-size:clamp(30px,5vw,48px);line-height:1.05;margin:0 0 6px;font-weight:800;text-wrap:balance}
+header p{margin:0 0 18px;opacity:.92;max-width:62ch}
+.ctrl{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.seg{display:flex;background:rgba(0,0,0,.18);border-radius:12px;padding:4px}
+.seg button{min-height:44px;padding:0 18px;border:0;border-radius:9px;background:none;color:#fff;font:600 16px Inter,sans-serif;cursor:pointer}
+.seg button[aria-pressed=true]{background:#fff;color:#b52d17}
+select,input{font:16px Inter,sans-serif;min-height:44px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:0 12px}
+header select{border:0}
+button{font-family:Inter,sans-serif}
+:focus-visible{outline:3px solid var(--yel);outline-offset:2px}
+.btn{min-height:44px;padding:0 18px;border-radius:10px;border:0;background:var(--teal);color:#fff;font-weight:600;font-size:16px;cursor:pointer}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.btn.red{background:var(--red)}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 0}
+.stats span{background:rgba(0,0,0,.18);border-radius:999px;padding:6px 14px;font-weight:600;font-size:15px}
+.days{display:flex;gap:6px;overflow-x:auto;padding:14px 0 2px}
+.days button{flex:none;min-height:44px;min-width:64px;padding:4px 10px;border-radius:10px;border:2px solid rgba(255,255,255,.45);background:none;color:#fff;cursor:pointer;font:600 14px/1.2 Inter,sans-serif}
+.days button small{display:block;font-weight:400;font-size:12px;opacity:.9}
+.days button[aria-pressed=true]{background:var(--yel);border-color:var(--yel);color:#15171a}
+.days button.today{box-shadow:inset 0 -4px 0 #fff}
+.main{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:28px;align-items:start}
+h2{font-size:28px;line-height:1.1;margin:0 0 4px}
+h3{font-size:20px;margin:0 0 10px}
+.sub{color:var(--mut);margin:0 0 16px}
+.blk{margin:22px 0 6px;padding-top:16px;border-top:3px solid var(--ink)}
+.blk h3{margin:0 0 4px;display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.blk h3 small{font:600 15px Inter,sans-serif;color:var(--mut)}
+.blk p{margin:0 0 10px;color:var(--mut);font-size:15px}
+.ex{border-top:1px solid var(--line);padding:16px 0;display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:start}
+.ex.noan{grid-template-columns:minmax(0,1fr)}
+.ex b{font-size:17px}
+.an{width:150px;height:120px;background:var(--card);border-radius:14px;color:var(--ink);display:block}
+.hd{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.ex .tip{color:var(--mut);font-size:14px;margin:4px 0 0}
+.ex .alt{font-size:14px;margin:4px 0 0;color:var(--teal)}
+.vid{display:inline-flex;align-items:center;gap:6px;min-height:40px;font-weight:600;font-size:15px;color:var(--red);text-decoration:none}
+.vid:hover{text-decoration:underline}
+.vid svg{width:22px;height:16px}
+.dose{font:700 17px Archivo,sans-serif;white-space:nowrap;text-align:right}
+.sets{display:flex;gap:8px;flex-wrap:wrap}
+.sets button{width:48px;height:44px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font-weight:600;cursor:pointer}
+.sets button[aria-pressed=true]{background:var(--teal);border-color:var(--teal);color:#fff}
+.phase{background:var(--card);border-radius:12px;padding:12px 14px;margin:0 0 6px;font-size:15px}
+.phase b{font-family:Archivo,sans-serif}
+.side{position:sticky;top:16px}
+.side>section{background:var(--card);border-radius:16px;padding:18px;margin-bottom:18px}
+.timer .big{font-size:clamp(64px,12vw,96px);font-weight:800;line-height:1;text-align:center;font-variant-numeric:tabular-nums;margin:6px 0}
+.timer .lab{text-align:center;font-weight:600;min-height:3em;color:var(--teal)}
+.timer .lab.run{color:var(--red)}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.habit{display:flex;gap:12px;align-items:center;min-height:44px;cursor:pointer}
+.habit input{width:24px;height:24px;min-height:0;accent-color:var(--teal)}
+.prog{height:12px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0 4px}
+.prog i{display:block;height:100%;background:var(--teal);transition:width .4s}
+.done{margin-top:22px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+.week div{background:var(--card);border-radius:12px;padding:12px 10px;font-size:14px}
+.week div b{display:block;font-family:Archivo,sans-serif;font-size:15px}
+.week div.ok{background:var(--teal);color:#fff}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.card{background:var(--card);border-radius:16px;padding:18px}
+.fig{position:relative;min-height:180px}.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+.log{list-style:none;padding:0;margin:10px 0 0;max-height:180px;overflow:auto}
+.log li{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding:6px 0;font-variant-numeric:tabular-nums}
+.log button{border:0;background:none;color:var(--mut);cursor:pointer;min-width:44px;min-height:32px}
+ul.rules{padding-left:20px;margin:0}ul.rules li{margin-bottom:6px}
+.warn{border-left:4px solid var(--red);padding:10px 14px;background:var(--bg);border-radius:0 12px 12px 0;margin-top:16px}
+#mini{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--bg);display:none;align-items:center;gap:12px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:9}
+#mini b{font:800 34px Archivo,sans-serif;font-variant-numeric:tabular-nums}
+#mini span{flex:1;font-weight:600;font-size:15px;line-height:1.3}
+#mini button{min-height:44px;border:0;border-radius:10px;padding:0 14px;font-weight:600;background:var(--red);color:#fff}
+footer{color:var(--mut);font-size:13px;padding-bottom:90px!important}
+@media(max-width:900px){.main{grid-template-columns:minmax(0,1fr)}.side{position:static}.week{grid-template-columns:repeat(4,minmax(0,1fr))}body.running #mini{display:flex}}
+@media(max-width:600px){.two{grid-template-columns:minmax(0,1fr)}.week{grid-template-columns:repeat(2,minmax(0,1fr))}h2{font-size:24px}}
+@media(max-width:460px){.ex{grid-template-columns:110px minmax(0,1fr);gap:12px}.an{width:110px;height:88px}}
+@media(prefers-reduced-motion:reduce){.prog i{transition:none}}
+</style>
+</head>
+<body>
+<header class="band"><div class="wrap">
+  <h1>Uy mashg'ulotlari</h1>
+  <p>Gantel, turnik va yugurish bilan 8 haftalik dastur: haftada 5 kun, har biri taxminan 1 soat. Kunni tanlang, setlarni belgilab boring, taymer qolganini o'zi boshqaradi.</p>
+  <div class="ctrl">
+    <div class="seg" role="group" aria-label="Kim uchun">
+      <button id="pSon" aria-pressed="true">O'g'lim</button>
+      <button id="pDad" aria-pressed="false">Men</button>
+    </div>
+    <label><span style="position:absolute;left:-9999px">Hafta</span><select id="week"></select></label>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="days" id="days" role="group" aria-label="Hafta kuni"></div>
+</div></header>
+
+<main class="band"><div class="wrap">
+  <div class="main">
+    <section id="workout" aria-live="polite"></section>
+    <div class="side">
+      <section class="timer">
+        <h3>Taymer</h3>
+        <div class="lab" id="tLab">Setni tugatgach belgilang — dam olish o'zi boshlanadi</div>
+        <div class="big" id="tBig">0:00</div>
+        <div class="row" id="tBtns"></div>
+      </section>
+      <section>
+        <h3>Bugungi odatlar</h3>
+        <div id="habits"></div>
+        <div class="prog"><i id="hProg" style="width:0"></i></div>
+        <small class="sub" id="hTxt"></small>
+      </section>
+    </div>
+  </div>
+</div></main>
+
+<section class="band" style="padding-top:0"><div class="wrap">
+  <h2>Bu hafta</h2>
+  <p class="sub" id="wSum"></p>
+  <div class="week" id="weekGrid"></div>
+</div></section>
+
+<section class="band" style="padding-top:0"><div class="wrap two">
+  <div class="card">
+    <h3>Vazn jurnali</h3>
+    <p class="sub" id="wHint" style="margin-bottom:10px"></p>
+    <form id="wForm" class="ctrl">
+      <input type="date" id="wDate" aria-label="Sana">
+      <input type="number" id="wKg" step="0.1" min="20" max="250" placeholder="kg" aria-label="Vazn, kg" style="width:100px">
+      <button class="btn">Qo'shish</button>
+    </form>
+    <div class="fig" style="margin-top:12px"><svg id="chart" role="img" aria-label="Vazn grafigi"></svg></div>
+    <ul class="log" id="log"></ul>
+  </div>
+  <div class="card" id="rules"></div>
+</div></section>
+
+<footer class="band" style="padding-top:0"><div class="wrap">Belgilar va vazn yozuvlari faqat shu telefonda saqlanadi.</div></footer>
+<div id="mini" role="timer"><b id="mBig">0:00</b><span id="mLab"></span><button id="mStop">To'xtatish</button></div>
+
+<script>
+{
+const DN=['Du','Se','Ch','Pa','Ju','Sh','Ya'],DF=['Dushanba','Seshanba','Chorshanba','Payshanba','Juma','Shanba','Yakshanba'];
+const ph=w=>w<=2?0:w<=5?1:2;
+const $=id=>document.getElementById(id);
+
+/* ---------- Mashqlar kutubxonasi: [nom, animatsiya, YouTube qidiruv, ko'rsatma, muqobil] ---------- */
+const EX={
+squat:["Gantel bilan o'tirib-turish",'squat','goblet squat dumbbell proper form',"Bitta gantelni ko'krak oldida ushlang. Orqa tik, tovonlar yerda, tizza oyoq uchi tomonga. 2 soniyada pastga, 1 soniyada tepaga."],
+pushup:["Otjimaniya",'pushup','push up proper form beginner',"Tana tayoqdek tekis. Qiyin bo'lsa tizzadan bajaring. Ko'krak yerga 5 sm qolguncha tushing."],
+lunge:["Hamla (oldinga qadam)",'lunge','dumbbell lunge proper form',"Ikki qo'lda gantel. Orqadagi tizza yerga deyarli tegadi, oldingi tizza oyoq uchidan chiqmaydi."],
+dip:["Stulda triceps (dips)",'dip','chair dips triceps proper form',"Mustahkam stul chetiga qo'l qo'ying, oyoqlar oldinda. Tirsakni orqaga bukib tushing va qayta ko'tariling."],
+bridge:["Yotib dumbani ko'tarish",'bridge','glute bridge proper form',"Tovonlar bilan itarib dumbani ko'taring, tepada 2 soniya ushlang. Bel emas, dumba ishlaydi."],
+calf:["Oyoq uchiga ko'tarilish",'calf','standing calf raise proper form',"Devorga tayanib, tovonni sekin ko'tarib, sekin tushiring."],
+plank:["Planka",'plank','plank exercise proper form',"Tirsak va oyoq uchida. Bel tushib ketmasin, qorin va dumba tarang."],
+row:["Egilib gantel tortish",'row','one arm dumbbell row proper form',"Bir qo'l va tizza stulda, ikkinchi qo'l gantelni beliga tortadi. Orqa tekis, tepada 1 soniya ushlang."],
+neg:["Turnikda sekin tushish",'neg','negative pull ups for beginners',"Stul yordamida iyakni turnikdan oshiring, keyin 4–5 soniyada sekin tushing. Bu tortilishni o'rgatadi."],
+rdl:["Gantel bilan egilish (rumin tyagasi)",'rdl','dumbbell romanian deadlift proper form',"Tizza sal bukilgan, orqa tekis. Dumbani orqaga chiqarib, son orqasi cho'zilguncha egiling."],
+press:["Tik turib yelka press",'press','standing dumbbell shoulder press form',"Gantellarni yelkadan tepaga ko'taring. Belni orqaga egmang, qorin tarang."],
+pressSeat:["O'tirib yelka press",'pressSeat','seated dumbbell shoulder press form',"Stulda tik o'tirib, gantellarni tepaga ko'taring. Belni egmang."],
+curl:["Biseps (gantel bukish)",'curl','dumbbell bicep curl proper form',"Tirsaklar biqinda qimirlamaydi. Sekin ko'tarib, sekin tushiring."],
+tri:["Bosh ortidan triceps",'tri','overhead dumbbell triceps extension form',"Bitta gantelni ikki qo'llab bosh ustida ushlang. Tirsakni bukib bosh ortiga tushiring va qayta to'g'rilang."],
+hang:["Turnikda osilish",'hang','dead hang pull up bar how to',"Qo'llar to'g'ri, yelkalar sal pastga tortilgan. Sekin nafas oling."],
+halfhang:["Turnikda yarim osilish",'halfhang','assisted dead hang feet on ground',"Oyoqlar yerda, tizzani bukib qo'llarga og'irlik bering. Yelka va umurtqa cho'ziladi."],
+superman:["Supermen",'superman','superman exercise proper form',"Qorinda yotib, qo'l va oyoqlarni birga sal ko'taring, 2 soniya ushlang."],
+climber:["Alpinist (mountain climber)",'climber','mountain climbers proper form beginner',"Otjimaniya holatida tizzalarni navbat bilan ko'krakka torting. Tos sakramasin."],
+jumpsquat:["Sakrab o'tirib-turish",'jumpsquat','squat jump proper form landing',"O'tirib, tepaga sakrang va yumshoq, tizzani bukib qo'ning."],
+bike:["Velosiped (press)",'bike','bicycle crunch proper form',"Tirsakni qarama-qarshi tizzaga yaqinlashtiring. Sekin, shoshilmang."],
+legraise:["Oyoq ko'tarish (press)",'legraise','lying leg raise proper form',"Chalqancha yotib, bel yerga yopishgan holda oyoqlarni tepaga ko'taring va sekin tushiring."],
+side:["Yon planka",'side','side plank proper form beginner',"Yonboshda tirsakka tayanib, tosni ko'taring. Qiyin bo'lsa tizzadan bajaring."],
+sideKnee:["Yon planka (tizzadan)",'side','modified side plank on knees',"Yonboshda tirsak va tizzaga tayanib, tosni ko'taring."],
+chair:["Stulga o'tirib-turish",'chair','chair sit to stand exercise',"Stulga sekin o'tiring va qo'lsiz turing. Tizza oyoq uchi tomonga.","Tizza og'risa: stulni balandroq qiling yoki chuqurlikni kamaytiring."],
+incline:["Stolga tayanib otjimaniya",'incline','incline push up proper form',"Qo'llar mustahkam stol chetida, tana tekis. Ko'krakni stolga yaqinlashtiring."],
+birddog:["Qush-it (bird-dog)",'birddog','bird dog exercise proper form',"To'rt oyoqda turib qarama-qarshi qo'l va oyoqni cho'zing, 2 soniya ushlang."],
+deadbug:["O'lik nuqta (dead bug)",'deadbug','dead bug exercise proper form',"Chalqancha yotib, bel yerga yopishgan holda qarama-qarshi qo'l-oyoqni sekin cho'zing."],
+carry:["Gantel ko'tarib yurish",'carry','farmer carry dumbbell proper form',"Ikki qo'lda gantel, qaddi tik, xonada aylanib yuring."],
+march:["Tizzani baland ko'tarib yurish",'march','high knee march low impact',"Joyida turib tizzalarni navbat bilan bel balandligigacha ko'taring, qo'llar ham ishlaydi."],
+rdlD:["Gantel bilan egilish (yengil)",'rdl','dumbbell romanian deadlift proper form',"Orqa butunlay tekis, faqat son orqasi cho'zilguncha egiling.","Bel og'risa: bu mashq o'rniga «Yotib dumbani ko'tarish»ni bajaring."]
+};
+const WARM={n:"Isinish",an:'march',q:'10 minute warm up before workout at home',t:"Joyida yurish 2 daq · qo'l va yelkani aylantirish 1 daq · tos va tizzani aylantirish 1 daq · 10 ta yengil o'tirib-turish · 10 ta devorga otjimaniya · 20 soniya planka. Ikki marta takrorlang."};
+const COOL={n:"Cho'zilish",q:'10 minute full body stretch after workout',t:"Son orqasi, son oldi, dumba, ko'krak, yelka, bel — har biri 30 soniya, og'riqsiz. Chuqur nafas oling."};
+
+/* ---------- Dasturlar ---------- */
+const P={
+son:{name:"O'g'lim",info:{h:162,kg:73,age:14},rest:60,sets:[2,3,3],work:[30,40,45],crest:[30,20,15],
+ A:{t:"Oyoq va ko'krak",items:[['squat','12','15','15'],['pushup','8','10','12'],['lunge','8 har oyoq','10 har oyoq','12 har oyoq'],['dip','6','8','10'],['bridge','15','20','20'],['calf','15','20','25'],['plank','30 son','40 son','50 son']],fin:['jumpsquat','climber','pushup','plank'],fr:[2,3,3]},
+ B:{t:"Orqa, yelka va qo'llar",items:[['row',"12 har qo'l","15 har qo'l","15 har qo'l"],['neg','3','5','6'],['rdl','12','15','15'],['press','10','12','15'],['curl','12','15','15'],['tri','12','15','15'],['hang','20 son','30 son','40 son'],['superman','10','12','15']],fin:['climber','superman','bike','side'],fr:[2,3,3]},
+ C:{t:"Butun tana — aylana",circ:['squat','pushup','row','lunge','climber','press','jumpsquat','plank'],cr:[3,4,5]},
+ core:{t:"Press va muvozanat",circ:['deadbug','birddog','side','bridge','legraise','plank'],cr:[2,3,3]},
+ cc:['bike','legraise','plank','side'],ccr:[2,2,3],
+ cardio:[
+  {t:"1 daq yugurish + 2 daq yurish × 8",run:60,walk:120,rep:8},
+  {t:"1,5 daq yugurish + 1,5 daq yurish × 8",run:90,walk:90,rep:8},
+  {t:"3 daq yugurish + 1 daq yurish × 6",run:180,walk:60,rep:6},
+  {t:"5 daq yugurish + 1 daq yurish × 4",run:300,walk:60,rep:4}],
+ steps:'10 000 qadam',sleep:'9 soat uxlash',
+ hint:"Haftada bir marta, ertalab nonushtadan oldin torting.",
+ goal:"O'g'il o'sish davrida: bo'yi o'sib, vazni joyida tursa ham bu yaxshi natija. Oyiga 1–2 kg dan tez ozish shart emas — kuch va chidamlilik oshishi muhimroq."},
+dad:{name:'Men',info:{h:170,kg:93,age:39},rest:60,sets:[2,3,3],work:[30,35,40],crest:[30,25,20],
+ A:{t:"Oyoq va ko'krak",items:[['chair','10','12','15'],['incline','10','12','15'],['bridge','12','15','20'],['pressSeat','10','12','15'],['calf','15','20','20'],['deadbug','8 har tomon','10 har tomon','12 har tomon'],['sideKnee','20 son','30 son','40 son']],fin:['march','chair','incline','bridge'],fr:[2,3,3]},
+ B:{t:"Orqa, yelka va qo'llar",items:[['row',"12 har qo'l","15 har qo'l","15 har qo'l"],['halfhang','20 son','30 son','40 son'],['rdlD','10','12','12'],['curl','12','15','15'],['tri','10','12','15'],['carry','40 son','60 son','60 son'],['birddog','8 har tomon','10 har tomon','12 har tomon']],fin:['march','carry','birddog','deadbug'],fr:[2,3,3]},
+ C:{t:"Butun tana — aylana",circ:['chair','incline','row','march','bridge','pressSeat','deadbug','carry'],cr:[3,4,4]},
+ core:{t:"Bel va muvozanat",circ:['deadbug','birddog','sideKnee','bridge','march'],cr:[2,3,3]},
+ cc:['deadbug','birddog','sideKnee'],ccr:[2,2,3],
+ cardio:[
+  {t:"Tez yurish 30 daqiqa",walk:1800,rep:1},
+  {t:"Tez yurish 35 daqiqa (tepalik bo'lsa yaxshi)",walk:2100,rep:1},
+  {t:"1 daq yengil yugurish + 3 daq yurish × 8",run:60,walk:180,rep:8},
+  {t:"1,5 daq yengil yugurish + 2,5 daq yurish × 8",run:90,walk:150,rep:8}],
+ steps:'8 000 qadam',sleep:'7–8 soat uxlash',
+ hint:"Haftada bir marta, ertalab bir xil vaqtda torting.",
+ goal:"Birinchi bosqich: 93 kg dan 85 kg gacha (3–4 oy), keyin 80 kg. Haftasiga 0,5–1 kg — me'yoriy va barqaror sur'at."}
+};
+const cIdx=w=>w<=2?0:w<=4?1:w<=6?2:3;
+
+/* ---------- Animatsiya ---------- */
+const yt=q=>'https://www.youtube.com/results?search_query='+encodeURIComponent(q);
+const YTI='<svg viewBox="0 0 22 16" aria-hidden="true"><rect width="22" height="16" rx="4" fill="currentColor"/><path d="M9 4.5v7l6-3.5z" fill="#fff"/></svg>';
+const ST={t:0,a1:[0,0],a2:[0,0],l1:[0,0],l2:[0,0],anc:['f1',100,150]};
+const A=(a,b,x)=>{const AA=Object.assign({},ST,a);return Object.assign({A:AA,B:Object.assign({},AA,b),db:[0,0],d:3200},x)};
+const ANIM={
+squat:A({a1:[30,160],a2:[30,160]},{t:30,a1:[60,170],a2:[60,170],l1:[80,-25],l2:[80,-25]},{db:[1,0]}),
+pushup:A({t:66,l1:[-66,-66],l2:[-66,-66],anc:['h1',138,150]},{t:74,a1:[-60,40],a2:[-60,40],l1:[-74,-74],l2:[-74,-74]}),
+row:A({t:70,a2:[25,20],l1:[12,-6],l2:[12,-6],anc:['f1',80,150]},{a1:[-100,0]},{db:[1,0]}),
+hang:A({a1:[180,180],a2:[180,180],l1:[15,-15],l2:[15,-15],anc:['h1',100,20]},{a1:[175,180],a2:[175,180],l1:[25,-25],l2:[25,-25]},{bar:20,d:2400}),
+neg:A({a1:[40,170],a2:[40,170],l1:[25,-35],l2:[25,-35],anc:['h1',100,20]},{a1:[180,180],a2:[180,180]},{bar:20,d:4600}),
+plank:A({t:76,a1:[0,90],a2:[0,90],l1:[-76,-76],l2:[-76,-76],anc:['e1',132,150]},{t:79,l1:[-79,-79],l2:[-79,-79]},{d:2600}),
+lunge:A({anc:['f1',118,150]},{l1:[85,0],l2:[-20,-80]},{db:[1,1]}),
+rdl:A({},{t:75,l1:[15,-5],l2:[15,-5]},{db:[1,1]}),
+press:A({a1:[20,180],a2:[20,180]},{a1:[180,180],a2:[180,180]},{db:[1,1]}),
+pressSeat:A({l1:[90,0],l2:[90,0],a1:[20,180],a2:[20,180],anc:['f1',118,150]},{a1:[180,180],a2:[180,180]},{db:[1,1],chair:[66,126]}),
+curl:A({},{a1:[5,140],a2:[5,140]},{db:[1,1],d:2600}),
+tri:A({a1:[180,-15],a2:[180,-15]},{a1:[180,180],a2:[180,180]},{db:[1,0],d:2800}),
+dip:A({a1:[-20,0],a2:[-20,0],l1:[80,5],l2:[80,5],anc:['h1',70,113]},{a1:[-80,10],a2:[-80,10],l1:[100,10],l2:[100,10]},{chair:[38,115]}),
+bridge:A({t:-90,a1:[90,90],a2:[90,90],l1:[140,10],l2:[140,10],anc:['f1',138,150]},{t:-110,a1:[100,95],a2:[100,95],l1:[115,-15],l2:[115,-15]}),
+bike:A({t:-75,a1:[-150,-40],a2:[-150,-40],l1:[150,60],l2:[100,95],anc:['hip',112,142]},{t:-80,l1:[100,95],l2:[150,60]},{d:2000}),
+legraise:A({t:-90,a1:[90,90],a2:[90,90],l1:[84,84],l2:[84,84],anc:['hip',100,146]},{l1:[172,172],l2:[172,172]},{d:3400}),
+superman:A({t:90,a1:[90,90],a2:[90,90],l1:[-90,-90],l2:[-90,-90],anc:['hip',100,147]},{t:79,a1:[100,100],a2:[100,100],l1:[-99,-99],l2:[-99,-99]},{d:2800}),
+climber:A({t:66,l1:[-66,-66],l2:[50,-40],anc:['h1',138,150]},{l1:[50,-40],l2:[-66,-66]},{d:900}),
+jumpsquat:A({t:30,a1:[-35,-35],a2:[-35,-35],l1:[80,-25],l2:[80,-25]},{t:0,a1:[165,165],a2:[165,165],l1:[0,0],l2:[0,0],anc:['f1',100,122]},{d:1400}),
+chair:A({a1:[90,90],a2:[90,90],anc:['f1',112,150]},{t:30,a1:[95,95],a2:[95,95],l1:[88,-15],l2:[88,-15]},{chair:[64,126]}),
+incline:A({t:45,a1:[45,45],a2:[45,45],l1:[-45,-45],l2:[-45,-45],anc:['h1',152,115]},{t:50,a1:[-60,50],a2:[-60,50],l1:[-50,-50],l2:[-50,-50]},{table:[138,115]}),
+halfhang:A({a1:[180,180],a2:[180,180],l1:[80,0],l2:[80,0],anc:['h1',105,40]},{l1:[68,-12],l2:[68,-12]},{bar:40,d:2600}),
+birddog:A({t:66,l1:[0,-90],l2:[0,-90],anc:['k1',82,150]},{a1:[110,100],l2:[-95,-95]}),
+carry:A({l1:[20,0],l2:[-20,-25],anc:['hip',100,101]},{l1:[-20,-25],l2:[20,0]},{db:[1,1],d:1100}),
+deadbug:A({t:-90,a1:[180,180],a2:[180,180],l1:[180,90],l2:[180,90],anc:['hip',112,144]},{a1:[-90,-90],l2:[95,95]}),
+side:A({t:-80,a1:[0,-90],a2:[0,-90],l1:[60,90],l2:[60,90],anc:['e1',70,148]},{t:-70,l1:[67,90],l2:[67,90]}),
+calf:A({},{anc:['f1',100,142]},{d:2000}),
+march:A({a1:[-30,-20],a2:[30,70],l1:[85,0],l2:[0,0],anc:['hip',100,98]},{a1:[30,70],a2:[-30,-20],l1:[0,0],l2:[85,0]},{d:1100}),
+walk:A({t:4,a1:[-20,-10],a2:[20,30],l1:[20,0],l2:[-20,-25],anc:['hip',100,101]},{a1:[20,30],a2:[-20,-10],l1:[-20,-25],l2:[20,0]},{d:1100}),
+run:A({t:15,a1:[-45,45],a2:[45,135],l1:[45,-20],l2:[-30,-75],anc:['hip',100,100]},{a1:[45,135],a2:[-45,45],l1:[-30,-75],l2:[45,-20]},{d:700})};
+const R=Math.PI/180,V=(a,L)=>[L*Math.sin(a*R),L*Math.cos(a*R)],AD=(p,v)=>[p[0]+v[0],p[1]+v[1]];
+const lerp=(a,b,k)=>a+(b-a)*k;
+function pose(an,k){const a=an.A,b=an.B,o={};for(const n of['a1','a2','l1','l2'])o[n]=[lerp(a[n][0],b[n][0],k),lerp(a[n][1],b[n][1],k)];
+  o.t=lerp(a.t,b.t,k);o.anc=[a.anc[0],lerp(a.anc[1],b.anc[1],k),lerp(a.anc[2],b.anc[2],k)];return o}
+function joints(p){const hip=[0,0],s=[40*Math.sin(p.t*R),-40*Math.cos(p.t*R)],hd=[53*Math.sin(p.t*R),-53*Math.cos(p.t*R)];
+  const e1=AD(s,V(p.a1[0],22)),h1=AD(e1,V(p.a1[1],20)),e2=AD(s,V(p.a2[0],22)),h2=AD(e2,V(p.a2[1],20));
+  const k1=AD(hip,V(p.l1[0],26)),f1=AD(k1,V(p.l1[1],26)),k2=AD(hip,V(p.l2[0],26)),f2=AD(k2,V(p.l2[1],26));
+  const j={hip,s,hd,e1,h1,e2,h2,k1,f1,k2,f2},q=j[p.anc[0]],dx=p.anc[1]-q[0],dy=p.anc[2]-q[1];
+  for(const n in j)j[n]=[j[n][0]+dx,j[n][1]+dy];return j}
+const ln=(a,b,o)=>`<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}"${o?' opacity=".38"':''}/>`;
+function drawFig(svg,an,k){const j=joints(pose(an,k));let h='<line x1="8" y1="154" x2="192" y2="154" stroke="currentColor" stroke-width="2" opacity=".25"/>';
+  if(an.bar!=null)h+=`<g stroke="currentColor" opacity=".55" stroke-width="3"><line x1="40" y1="${an.bar}" x2="170" y2="${an.bar}"/><line x1="44" y1="${an.bar}" x2="44" y2="154"/><line x1="166" y1="${an.bar}" x2="166" y2="154"/></g>`;
+  if(an.chair){const[x,y]=an.chair;h+=`<g stroke="currentColor" opacity=".45" stroke-width="3" fill="none"><line x1="${x}" y1="${y}" x2="${x+32}" y2="${y}"/><line x1="${x}" y1="${y-40}" x2="${x}" y2="154"/><line x1="${x+32}" y1="${y}" x2="${x+32}" y2="154"/></g>`}
+  if(an.table){const[x,y]=an.table;h+=`<g stroke="currentColor" opacity=".45" stroke-width="3"><line x1="${x}" y1="${y+3}" x2="${x+52}" y2="${y+3}"/><line x1="${x+6}" y1="${y+3}" x2="${x+6}" y2="154"/><line x1="${x+46}" y1="${y+3}" x2="${x+46}" y2="154"/></g>`}
+  const ft=f=>[f[0]+8,f[1]];
+  h+=`<g stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none">${ln(j.s,j.e2,1)+ln(j.e2,j.h2,1)+ln(j.hip,j.k2,1)+ln(j.k2,j.f2,1)+ln(j.f2,ft(j.f2),1)}${ln(j.hip,j.s)}${ln(j.hip,j.k1)+ln(j.k1,j.f1)+ln(j.f1,ft(j.f1))}${ln(j.s,j.e1)+ln(j.e1,j.h1)}</g>`;
+  h+=`<circle cx="${j.hd[0].toFixed(1)}" cy="${j.hd[1].toFixed(1)}" r="9" fill="currentColor"/>`;
+  if(an.db[1])h+=`<circle cx="${j.h2[0].toFixed(1)}" cy="${j.h2[1].toFixed(1)}" r="6" fill="var(--red)" opacity=".55"/>`;
+  if(an.db[0])h+=`<circle cx="${j.h1[0].toFixed(1)}" cy="${j.h1[1].toFixed(1)}" r="6.5" fill="var(--red)"/>`;
+  svg.innerHTML=h}
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let figs=[],lastF=0;
+function tick(now){if(now-lastF>33){lastF=now;for(const f of figs){const an=ANIM[f.dataset.an];if(!an)continue;
+  const k=still?1:(1-Math.cos(2*Math.PI*now/an.d))/2;drawFig(f,an,k)}}requestAnimationFrame(tick)}
+const fig=n=>n?`<svg class="an" data-an="${n}" viewBox="0 0 200 160" role="img" aria-label="Mashq animatsiyasi"></svg>`:'';
+const vlink=q=>`<a class="vid" href="${yt(q)}" target="_blank" rel="noopener">${YTI}Videoda ko'rish</a>`;
+
+/* ---------- Holat ---------- */
+let S={who:'son',week:1,data:{}};
+try{const s=JSON.parse(localStorage.getItem('uyMashq2'));if(s)S=Object.assign(S,s)}catch(e){}
+const save=()=>{try{localStorage.setItem('uyMashq2',JSON.stringify(S))}catch(e){}};
+const todayIdx=(new Date().getDay()+6)%7;
+let day=todayIdx;
+const iso=d=>{const z=new Date(d.getTime()-d.getTimezoneOffset()*6e4);return z.toISOString().slice(0,10)};
+const dateOf=i=>{const d=new Date();d.setDate(d.getDate()+(i-todayIdx));return iso(d)};
+const D=()=>{const k=S.who;S.data[k]=S.data[k]||{marks:{},done:{},habits:{},weights:[]};return S.data[k]};
+
+/* ---------- Kun rejasi ---------- */
+function plan(i){
+  const p=P[S.who],w=S.week,f=ph(w);
+  const kuch=k=>({k:'S',t:"Kuch: "+p[k].t,blocks:[{type:'warm'},{type:'sets',items:p[k].items},{type:'circ',title:"Yakuniy aylana",list:p[k].fin,rounds:p[k].fr[f]},{type:'cool'}]});
+  if(i===0)return kuch('A');
+  if(i===2)return kuch('B');
+  if(i===4)return{k:'S',t:"Kuch: "+p.C.t,blocks:[{type:'warm'},{type:'circ',title:"Asosiy aylana",list:p.C.circ,rounds:p.C.cr[f]},{type:'sets',items:[[S.who==='son'?'hang':'halfhang','20 son','30 son','40 son']]},{type:'cool'}]};
+  if(i===1)return{k:'C',t:"Kardio va press",blocks:[{type:'cardio',c:p.cardio[cIdx(w)]},{type:'circ',title:"Press bloki",list:p.cc,rounds:p.ccr[f]},{type:'cool'}]};
+  if(i===3)return{k:'W',t:"Yengil kun: "+p.core.t,blocks:[{type:'warm'},{type:'circ',title:p.core.t,list:p.core.circ,rounds:p.core.cr[f]},{type:'cool',long:1}]};
+  if(i===5)return{k:'L',t:"Uzoq yurish yoki o'yin",blocks:[{type:'free',an:'walk',s:"45–60 daqiqa: birga yurish, futbol, velosiped, suzish",tip:"Tezlik: gaplashib yura oladigan darajada. Birga chiqsangiz, ikkingizga ham oson va qiziq."}]};
+  return{k:'R',t:'Dam olish',blocks:[{type:'free',s:"Mushaklar dam olganda o'sadi",tip:"Yaxshi uxlash va suv ichish — bugungi vazifa. Yengil sayr mumkin."}]};
+}
+function minutes(pl){
+  const p=P[S.who],f=ph(S.week);let s=0;
+  for(const b of pl.blocks){
+    if(b.type==='warm')s+=480;
+    if(b.type==='cool')s+=b.long?600:360;
+    if(b.type==='sets')s+=b.items.length*p.sets[f]*(45+p.rest);
+    if(b.type==='circ')s+=b.rounds*b.list.length*(p.work[f]+p.crest[f])+(b.rounds-1)*60;
+    if(b.type==='cardio')s+=600+(b.c.run||0)*b.c.rep+b.c.walk*b.c.rep;
+    if(b.type==='free')s+=b.an?2700:0;
+  }return Math.round(s/60)
+}
+
+/* ---------- Chizish ---------- */
+const exCard=(id,dose,btns)=>{const e=EX[id];return `<div class="ex">${fig(e[1])}<div><div class="hd"><b>${e[0]}</b><span class="dose">${dose}</span></div><p class="tip">${e[3]}</p>${e[4]?`<p class="alt">${e[4]}</p>`:''}${vlink(e[2])}${btns?`<div class="sets">${btns}</div>`:''}</div></div>`};
+let circs=[];
+function renderWorkout(){
+  const w=S.week,f=ph(w),p=P[S.who],pl=plan(day),dt=dateOf(day),d=D(),m=d.marks[dt]||{};
+  const mins=minutes(pl);circs=[];
+  let h=`<h2>${DF[day]}: ${pl.t}</h2><p class="sub">${p.name} · ${w}-hafta${mins?` · taxminan ${mins} daqiqa`:''}</p>`;
+  if(pl.k==='S'||pl.k==='W'||pl.k==='C')h+=`<div class="phase">${f===0?"<b>1–2-hafta: tanishish.</b> Mashg'ulot qisqaroq — mushak va bo'g'imlar ko'nikadi. 3-haftadan to'liq 1 soat.":f===1?"<b>3–5-hafta:</b> to'liq hajm, taxminan 1 soat.":"<b>6–8-hafta:</b> eng og'ir bosqich — setlar va aylanalar ko'paydi."}</div>`;
+  pl.blocks.forEach((b,bi)=>{
+    if(b.type==='warm')h+=`<div class="blk"><h3>Isinish <small>8 daq</small></h3></div><div class="ex">${fig(WARM.an)}<div><p class="tip" style="margin:0">${WARM.t}</p>${vlink(WARM.q)}</div></div>`;
+    if(b.type==='cool')h+=`<div class="blk"><h3>Cho'zilish <small>${b.long?10:6} daq</small></h3></div><div class="ex noan"><div><p class="tip" style="margin:0">${COOL.t}</p>${vlink(COOL.q)}</div></div>`;
+    if(b.type==='sets'){
+      const ns=p.sets[f];
+      h+=`<div class="blk"><h3>Asosiy mashqlar <small>${ns} set · dam ${p.rest} son</small></h3><p>Setni tugatgach raqamini bosing — dam olish taymeri o'zi boshlanadi.</p></div>`;
+      h+=b.items.map((it,j)=>{const key=bi+'-'+j;
+        const btns=Array.from({length:ns},(_,s)=>`<button data-m="${key}-${s}" data-rest="1" aria-pressed="${!!m[key+'-'+s]}" aria-label="${EX[it[0]][0]}, ${s+1}-set">${s+1}</button>`).join('');
+        return exCard(it[0],ns+' × '+it[f+1],btns)}).join('');
+    }
+    if(b.type==='circ'){
+      const ci=circs.push(b)-1,wk=p.work[f],rs=p.crest[f];
+      const btns=Array.from({length:b.rounds},(_,s)=>`<button data-m="${bi}-c-${s}" aria-pressed="${!!m[bi+'-c-'+s]}" aria-label="${s+1}-aylana">${s+1}</button>`).join('');
+      h+=`<div class="blk"><h3>${b.title} <small>${b.rounds} aylana · ${wk} son ish / ${rs} son dam</small></h3><p>Mashqlarni ketma-ket bajaring, aylanalar orasida 1 daqiqa dam. Taymer har mashq nomini aytib boradi.</p>
+      <div class="ctrl" style="margin-bottom:6px"><button class="btn red" data-circ="${ci}">▶ Aylanani boshlash</button></div><div class="sets" style="margin:8px 0 4px">${btns}</div></div>`;
+      h+=b.list.map(id=>exCard(id,wk+' son','')).join('');
+    }
+    if(b.type==='cardio'){const c=b.c;
+      h+=`<div class="blk"><h3>Kardio <small>${Math.round((600+(c.run||0)*c.rep+c.walk*c.rep)/60)} daq</small></h3><p>Avval 5 daqiqa bemalol yuring, oxirida ham 5 daqiqa sekinlashib yuring. Yugurganda gaplasha oladigan tezlikda yuguring.</p><div class="ctrl"><button class="btn red" id="tCar">▶ Kardioni boshlash</button></div></div>
+      <div class="ex">${fig(c.run?'run':'walk')}<div><div class="hd"><b>${c.t}</b></div><p class="tip">Taymer yugurish va yurishni o'zi almashtiradi va signal beradi.</p>${vlink(c.run?'couch to 5k running form beginners':'brisk walking proper technique')}</div></div>`;
+    }
+    if(b.type==='free')h+=`<div class="ex${b.an?'':' noan'}">${fig(b.an)}<div><div class="hd"><b>${b.s}</b></div><p class="tip">${b.tip}</p></div></div>`;
+  });
+  const isDone=!!d.done[dt];
+  h+=`<div class="done"><button class="btn" id="doneBtn">${isDone?'Bajarildi ✓ (bekor qilish)':'Bugungi mashg\'ulotni tugatdim'}</button></div>`;
+  $('workout').innerHTML=h;
+  figs=[...$('workout').querySelectorAll('svg.an')];
+  $('workout').querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{
+    const v=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',v);
+    d.marks[dt]=d.marks[dt]||{};d.marks[dt][b.dataset.m]=v;save();
+    if(v&&b.dataset.rest)startRest();
+  });
+  $('workout').querySelectorAll('[data-circ]').forEach(b=>b.onclick=()=>startCirc(circs[+b.dataset.circ]));
+  const cb=pl.blocks.find(b=>b.type==='cardio');if(cb)$('tCar').onclick=()=>startCardio(cb.c);
+  $('doneBtn').onclick=()=>{d.done[dt]=!d.done[dt];save();renderAll()};
+  $('tBtns').innerHTML=`<button class="btn" id="tRest">Dam ${p.rest} son</button><button class="btn ghost" id="tStop">To'xtatish</button>`;
+  $('tRest').onclick=startRest;$('tStop').onclick=stopT;
+}
+
+/* ---------- Taymer ---------- */
+let ac=null,tm=null;
+function beep(n,hi){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();for(let i=0;i<n;i++){const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=hi?1175:880;o.connect(g);g.connect(ac.destination);const t=ac.currentTime+i*.3;g.gain.setValueAtTime(.3,t);g.gain.exponentialRampToValueAtTime(.001,t+.25);o.start(t);o.stop(t+.26)}}catch(e){}}
+const fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+function show(t,l,r){$('tBig').textContent=t;$('tLab').textContent=l;$('tLab').className='lab'+(r?' run':'');$('mBig').textContent=t;$('mLab').textContent=l}
+function run(steps){stopT();document.body.classList.add('running');let i=0,left=steps[0].s;const sh=()=>show(fmt(left),steps[i].l,steps[i].r);sh();
+  tm=setInterval(()=>{left--;if(left>0&&left<=3&&steps[i+1])beep(1);
+    if(left<=0){i++;if(i>=steps.length){stopT();show('0:00','Tamom! Barakalla 💪');beep(3,1);return}beep(steps[i].r?2:1,steps[i].r);left=steps[i].s}sh()},1000)}
+function stopT(){clearInterval(tm);tm=null;document.body.classList.remove('running');show('0:00',"Setni tugatgach belgilang — dam olish o'zi boshlanadi")}
+function startRest(){beep(0);run([{s:P[S.who].rest,l:"Dam olish — keyingi setga tayyorlaning"}])}
+function startCardio(c){beep(0);const st=[{s:300,l:'Isinish: bemalol yurish'}];for(let k=0;k<c.rep;k++){if(c.run)st.push({s:c.run,l:`Yugurish ${k+1}/${c.rep}`,r:1});st.push({s:c.walk,l:c.run?`Yurish ${k+1}/${c.rep}`:'Tez yurish'})}st.push({s:300,l:'Sekinlashib yurish'});run(st)}
+function startCirc(b){beep(0);const p=P[S.who],f=ph(S.week),st=[{s:10,l:'Tayyorlaning: '+EX[b.list[0]][0]}];
+  for(let r=0;r<b.rounds;r++){b.list.forEach((id,j)=>{st.push({s:p.work[f],l:`${r+1}/${b.rounds}-aylana · ${EX[id][0]}`,r:1});
+    const nx=b.list[j+1];if(nx)st.push({s:p.crest[f],l:'Dam · keyingisi: '+EX[nx][0]})});
+    if(r<b.rounds-1)st.push({s:60,l:`Aylana tugadi — 1 daqiqa dam · keyingisi: ${EX[b.list[0]][0]}`})}
+  run(st)}
+$('mStop').onclick=stopT;
+
+/* ---------- Odatlar, hafta, vazn ---------- */
+function renderHabits(){
+  const p=P[S.who],dt=dateOf(day),d=D(),hb=d.habits[dt]||{};
+  const L=['6–8 stakan suv','Shirin gazli ichimlik ichmadim',p.steps,p.sleep,'Kechki ovqat yengil, uxlashdan 3 soat oldin'];
+  $('habits').innerHTML=L.map((t,i)=>`<label class="habit"><input type="checkbox" data-h="${i}" ${hb[i]?'checked':''}>${t}</label>`).join('');
+  const n=L.filter((_,i)=>hb[i]).length;$('hProg').style.width=(n/L.length*100)+'%';$('hTxt').textContent=`${n} / ${L.length} bajarildi`;
+  $('habits').querySelectorAll('input').forEach(c=>c.onchange=()=>{d.habits[dt]=d.habits[dt]||{};d.habits[dt][c.dataset.h]=c.checked;save();renderHabits()});
+}
+const tag=k=>({S:'kuch',C:'kardio',W:'yengil',L:'yurish',R:'dam'})[k];
+function renderWeek(){
+  const d=D();let cnt=0,need=0;
+  $('weekGrid').innerHTML=DN.map((n,i)=>{const pl=plan(i),ok=!!d.done[dateOf(i)];if(pl.k!=='R'){need++;if(ok)cnt++}
+    return `<div class="${ok?'ok':''}"><b>${DF[i]}</b>${pl.t}${ok?' ✓':''}</div>`}).join('');
+  $('wSum').textContent=`${P[S.who].name}: bu hafta ${cnt} / ${need} kun bajarildi. 8 hafta tugagach, dasturni og'irroq gantel bilan boshidan takrorlaymiz.`;
+  $('days').innerHTML=DN.map((n,i)=>`<button aria-pressed="${i===day}" class="${i===todayIdx?'today':''}" data-d="${i}">${n}<small>${tag(plan(i).k)}</small></button>`).join('');
+  $('days').querySelectorAll('button').forEach(b=>b.onclick=()=>{day=+b.dataset.d;renderAll();scrollTo({top:0})});
+}
+const chart=$('chart');
+function drawChart(){
+  const W=chart.clientWidth,H=chart.clientHeight,ws=[...D().weights].sort((a,b)=>a.d<b.d?-1:1);
+  if(ws.length<2){chart.innerHTML=`<text x="${W/2}" y="${H/2}" text-anchor="middle" fill="currentColor" opacity=".6" font-size="14">Grafik uchun kamida 2 ta yozuv kiriting</text>`;return}
+  const v=ws.map(x=>x.kg),mn=Math.min(...v)-1,mx=Math.max(...v)+1,px=36,py=16;
+  const X=i=>px+i*(W-px-12)/(ws.length-1),Y=k=>py+(mx-k)/(mx-mn)*(H-py*2);
+  const pts=ws.map((x,i)=>`${X(i)},${Y(x.kg)}`).join(' ');
+  chart.innerHTML=`<g fill="currentColor" opacity=".6" font-size="12"><text x="0" y="${Y(mx-1)+4}">${(mx-1).toFixed(1)}</text><text x="0" y="${Y(mn+1)+4}">${(mn+1).toFixed(1)}</text></g>
+  <polyline points="${pts}" fill="none" stroke="var(--teal)" stroke-width="3" stroke-linejoin="round"/>${ws.map((x,i)=>`<circle cx="${X(i)}" cy="${Y(x.kg)}" r="4" fill="var(--red)"/>`).join('')}`;
+}
+const ro=new ResizeObserver(drawChart);ro.observe(chart);
+function renderLog(){
+  const p=P[S.who],ws=[...D().weights].sort((a,b)=>a.d<b.d?1:-1);
+  $('wHint').textContent=p.hint;
+  const f=ws.length>1?(ws[0].kg-ws[ws.length-1].kg):0;
+  $('log').innerHTML=(ws.length>1?`<li><span>Boshidan beri</span><b>${f>0?'+':''}${f.toFixed(1)} kg</b></li>`:'')+ws.map(x=>`<li><span>${x.d}</span><span><b>${x.kg} kg</b><button data-x="${x.d}" aria-label="O'chirish">✕</button></span></li>`).join('');
+  $('log').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{D().weights=D().weights.filter(x=>x.d!==b.dataset.x);save();renderAll()});
+}
+$('wDate').value=iso(new Date());
+$('wForm').onsubmit=e=>{e.preventDefault();const kg=parseFloat($('wKg').value),dt=$('wDate').value;if(!kg||!dt)return;
+  const d=D();d.weights=d.weights.filter(x=>x.d!==dt);d.weights.push({d:dt,kg});save();$('wKg').value='';renderAll()};
+
+function renderRules(){
+  const son=S.who==='son';
+  $('rules').innerHTML=`<h3>Ovqatlanish va qoidalar</h3><ul class="rules">
+  <li>Har ovqatda yarim tarelka sabzavot yoki salat.</li>
+  <li>Oqsil har kuni: tuxum, tovuq, mol go'shti, loviya, tvorog, qatiq.</li>
+  <li>Non — ovqatga bir bo'lak, ikki-uch emas. Iloji bo'lsa qora non.</li>
+  <li>Gazli ichimlik, sharbat, chips, shirinlik — kundalik emas, haftada bir-ikki marta.</li>
+  <li>Osh, somsa kabi og'ir taomni kunning birinchi yarmida, porsiyani kichikroq.</li>
+  <li>Mashg'ulotdan 1–1,5 soat oldin yengil ovqat, keyin oqsilli ovqat.</li>
+  ${son?"<li>Ovqatni qisqartirmaymiz, ovqat tanlovini yaxshilaymiz. O'sayotgan bola nonushtani tashlamasligi kerak.</li>":"<li>Kechki ovqat eng kichik ovqat bo'lsin. Kun bo'yi o'tirsangiz, har soatda 3–5 daqiqa turib yuring.</li>"}
+  <li>4 kg gantel tez orada yengil bo'lib qoladi: ${son?"6–8 kg":"8–10 kg"} gacha yig'ma (vintli) gantel olsangiz, dastur yana samaraliroq bo'ladi.</li>
+  </ul><p><b>Maqsad:</b> ${P[S.who].goal}</p>
+  <div class="warn">Mashqda keskin og'riq, bosh aylanishi, ko'krak og'rig'i yoki nafas yetishmasligi bo'lsa — darhol to'xtang. ${son?"Boshlashdan oldin o'g'lingizni pediatr yoki maktab shifokoriga ko'rsatib olish tavsiya etiladi.":"Bel yoki tizzada og'riq kuchaysa, o'sha mashqni tashlab, shifokorga ko'rining."}</div>`;
+}
+
+function renderAll(){
+  $('pSon').setAttribute('aria-pressed',S.who==='son');$('pDad').setAttribute('aria-pressed',S.who==='dad');
+  $('week').value=S.week;
+  const inf=P[S.who].info,d0=D();
+  if(!d0.weights.length){d0.weights.push({d:iso(new Date()),kg:inf.kg});save()}
+  const last=[...d0.weights].sort((a,b)=>a.d<b.d?1:-1)[0].kg;
+  $('stats').innerHTML=`<span>${inf.age} yosh</span><span>Bo'y ${inf.h} sm</span><span>Hozir ${last} kg</span><span>Boshlanish ${inf.kg} kg</span>`;
+  renderWeek();renderWorkout();renderHabits();renderLog();drawChart();renderRules();
+}
+$('week').innerHTML=Array.from({length:8},(_,i)=>`<option value="${i+1}">${i+1}-hafta</option>`).join('');
+$('week').onchange=()=>{S.week=+$('week').value;save();renderAll()};
+$('pSon').onclick=()=>{S.who='son';save();stopT();renderAll()};
+$('pDad').onclick=()=>{S.who='dad';save();stopT();renderAll()};
+renderAll();
+requestAnimationFrame(tick);
+}
+</script>
+</body>
+</html>

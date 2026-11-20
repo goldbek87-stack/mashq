@@ -1,0 +1,6 @@
+{
+  "appId": "uz.uymashq.app",
+  "appName": "Uy mashq",
+  "webDir": "www",
+  "android": { "backgroundColor": "#e2432a" }
+}
