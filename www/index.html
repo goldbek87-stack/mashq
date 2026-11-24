@@ -220,8 +220,8 @@ son:{name:"O'g'lim",info:{h:162,kg:73,age:14},rest:60,sets:[2,3,3],work:[30,40,4
  A:{t:"Oyoq va ko'krak",items:[['squat','12','15','20'],['floorpress','12','15','20'],['lunge','8 har oyoq','10 har oyoq','12 har oyoq'],['pushup','8','10','12'],['bridge','15','20','20'],['calf','15','20','25'],['plank','30 son','40 son','50 son']],fin:['thruster','climber','floorpress','plank'],fr:[2,3,3]},
  B:{t:"Orqa, yelka va qo'llar",items:[['row',"12 har qo'l","15 har qo'l","15 har qo'l"],['neg','3','5','6'],['rdl','12','15','15'],['press','10','12','15'],['curl','12','15','20'],['tri','12','15','20'],['pullover','12','15','15'],['hang','20 son','30 son','40 son']],fin:['dip','superman','frontraise','side'],fr:[2,3,3]},
  C:{t:"Butun tana — aylana",circ:['thruster','pushup','row','lunge','climber','curl','jumpsquat','plank'],cr:[3,4,5]},
- core:{t:"Press va muvozanat",circ:['deadbug','birddog','side','bridge','legraise','plank'],cr:[2,3,3]},
- cc:['bike','legraise','plank','side'],ccr:[2,2,3],
+ core:{t:"Press va muvozanat",circ:['deadbug','birddog','frontraise','bridge','legraise','curl','plank'],cr:[2,3,3]},
+ cc:['deadbug','pullover','bridge','bike','plank'],ccr:[2,3,3],
  cardio:[
   {t:"1 daq yugurish + 2 daq yurish × 8",run:60,walk:120,rep:8},
   {t:"1,5 daq yugurish + 1,5 daq yurish × 8",run:90,walk:90,rep:8},
@@ -234,8 +234,8 @@ dad:{name:'Men',info:{h:170,kg:93,age:39},rest:60,sets:[2,3,3],work:[30,35,40],c
  A:{t:"Oyoq va ko'krak",items:[['chair','10','12','15'],['floorpress','12','15','20'],['bridge','12','15','20'],['pressSeat','10','12','15'],['calf','15','20','20'],['frontraise','10','12','15'],['deadbug','8 har tomon','10 har tomon','12 har tomon']],fin:['march','chair','incline','sideKnee'],fr:[2,3,3]},
  B:{t:"Orqa, yelka va qo'llar",items:[['row',"12 har qo'l","15 har qo'l","15 har qo'l"],['halfhang','20 son','30 son','40 son'],['rdlD','10','12','12'],['curl','12','15','20'],['tri','10','12','15'],['pullover','10','12','15'],['carry','40 son','60 son','60 son'],['birddog','8 har tomon','10 har tomon','12 har tomon']],fin:['march','carry','birddog','deadbug'],fr:[2,3,3]},
  C:{t:"Butun tana — aylana",circ:['chair','floorpress','row','march','bridge','pressSeat','curl','carry'],cr:[3,4,4]},
- core:{t:"Bel va muvozanat",circ:['deadbug','birddog','sideKnee','bridge','march'],cr:[2,3,3]},
- cc:['deadbug','birddog','sideKnee'],ccr:[2,2,3],
+ core:{t:"Bel va muvozanat",circ:['deadbug','birddog','frontraise','bridge','curl','sideKnee'],cr:[2,3,3]},
+ cc:['deadbug','pullover','bridge','birddog'],ccr:[2,3,3],
  cardio:[
   {t:"Tez yurish 30 daqiqa",walk:1800,rep:1},
   {t:"Tez yurish 35 daqiqa (tepalik bo'lsa yaxshi)",walk:2100,rep:1},
@@ -304,8 +304,9 @@ function drawFig(svg,an,k){const j=joints(pose(an,k));let h='<line x1="8" y1="15
   const ft=f=>[f[0]+8,f[1]];
   h+=`<g stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none">${ln(j.s,j.e2,1)+ln(j.e2,j.h2,1)+ln(j.hip,j.k2,1)+ln(j.k2,j.f2,1)+ln(j.f2,ft(j.f2),1)}${ln(j.hip,j.s)}${ln(j.hip,j.k1)+ln(j.k1,j.f1)+ln(j.f1,ft(j.f1))}${ln(j.s,j.e1)+ln(j.e1,j.h1)}</g>`;
   h+=`<circle cx="${j.hd[0].toFixed(1)}" cy="${j.hd[1].toFixed(1)}" r="9" fill="currentColor"/>`;
-  if(an.db[1])h+=`<circle cx="${j.h2[0].toFixed(1)}" cy="${j.h2[1].toFixed(1)}" r="6" fill="var(--red)" opacity=".55"/>`;
-  if(an.db[0])h+=`<circle cx="${j.h1[0].toFixed(1)}" cy="${j.h1[1].toFixed(1)}" r="6.5" fill="var(--red)"/>`;
+  const dbl=(q,o)=>{const x=q[0].toFixed(1),y=q[1].toFixed(1);return `<g transform="translate(${x},${y})" fill="var(--red)"${o?' opacity=".5"':''}><rect x="-11" y="-2" width="22" height="4" rx="2"/><rect x="-13" y="-7" width="7" height="14" rx="2"/><rect x="6" y="-7" width="7" height="14" rx="2"/></g>`};
+  if(an.db[1])h+=dbl(j.h2,1);
+  if(an.db[0])h+=dbl(j.h1);
   svg.innerHTML=h}
 const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let figs=[],lastF=0;
@@ -356,7 +357,7 @@ function minutes(pl){
 
 /* ---------- Chizish ---------- */
 const hasDb=id=>{const a=ANIM[EX[id][1]];return a&&(a.db[0]||a.db[1])};
-const exCard=(id,dose,btns)=>{const e=EX[id];return `<div class="ex">${fig(e[1])}<div><div class="hd"><b>${e[0]}</b><span class="dose">${dose}</span></div>${hasDb(id)?'<span class="chip">gantel bilan</span>':''}<p class="tip">${e[3]}</p>${e[4]?`<p class="alt">${e[4]}</p>`:''}${vlink(e[2])}${btns?`<div class="sets">${btns}</div>`:''}</div></div>`};
+const exCard=(id,dose,btns)=>{const e=EX[id];return `<div class="ex">${fig(e[1])}<div><div class="hd"><b>${e[0]}</b><span class="dose">${dose}</span></div>${hasDb(id)?'<span class="chip">gantel bilan · 4 kg</span>':''}<p class="tip">${e[3]}</p>${e[4]?`<p class="alt">${e[4]}</p>`:''}${vlink(e[2])}${btns?`<div class="sets">${btns}</div>`:''}</div></div>`};
 let circs=[];
 function renderWorkout(){
   const w=S.week,f=ph(w),p=P[S.who],pl=plan(day),dt=dateOf(day),d=D(),m=d.marks[dt]||{};
