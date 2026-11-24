@@ -58,6 +58,7 @@ h3{font-size:20px;margin:0 0 10px}
 .hd{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
 .ex .tip{color:var(--mut);font-size:14px;margin:4px 0 0}
 .ex .alt{font-size:14px;margin:4px 0 0;color:var(--teal)}
+.chip{display:inline-block;margin-top:6px;padding:2px 10px;border-radius:999px;background:var(--red);color:#fff;font-size:13px;font-weight:600}
 .vid{display:inline-flex;align-items:center;gap:6px;min-height:40px;font-weight:600;font-size:15px;color:var(--red);text-decoration:none}
 .vid:hover{text-decoration:underline}
 .vid svg{width:22px;height:16px}
@@ -157,6 +158,13 @@ footer{color:var(--mut);font-size:13px;padding-bottom:90px!important}
   <div class="card" id="rules"></div>
 </div></section>
 
+<section class="band" style="padding-top:0"><div class="wrap"><div class="card">
+  <h3>Zaxira nusxa</h3>
+  <p class="sub" style="margin-bottom:10px">Ilova yangilanganda belgilar saqlanib qoladi. Lekin telefon almashsa yoki ilova o'chirilsa, oyda bir marta zaxira olib qo'ying: «Zaxira olish»ni bosing va matnni Telegram'ga yuboring. Tiklash uchun matnni shu yerga joylab, «Tiklash»ni bosing.</p>
+  <textarea id="bkTxt" rows="3" style="width:100%;font:13px/1.4 monospace;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:10px" aria-label="Zaxira matni"></textarea>
+  <div class="ctrl" style="margin-top:10px"><button class="btn" id="bkMake">Zaxira olish</button><button class="btn ghost" id="bkLoad">Tiklash</button><span id="bkMsg" class="sub" style="margin:0"></span></div>
+</div></div></section>
+
 <footer class="band" style="padding-top:0"><div class="wrap">Belgilar va vazn yozuvlari faqat shu telefonda saqlanadi.</div></footer>
 <div id="mini" role="timer"><b id="mBig">0:00</b><span id="mLab"></span><button id="mStop">To'xtatish</button></div>
 
@@ -172,8 +180,8 @@ squat:["Gantel bilan o'tirib-turish",'squat','goblet squat dumbbell proper form'
 pushup:["Otjimaniya",'pushup','push up proper form beginner',"Tana tayoqdek tekis. Qiyin bo'lsa tizzadan bajaring. Ko'krak yerga 5 sm qolguncha tushing."],
 lunge:["Hamla (oldinga qadam)",'lunge','dumbbell lunge proper form',"Ikki qo'lda gantel. Orqadagi tizza yerga deyarli tegadi, oldingi tizza oyoq uchidan chiqmaydi."],
 dip:["Stulda triceps (dips)",'dip','chair dips triceps proper form',"Mustahkam stul chetiga qo'l qo'ying, oyoqlar oldinda. Tirsakni orqaga bukib tushing va qayta ko'tariling."],
-bridge:["Yotib dumbani ko'tarish",'bridge','glute bridge proper form',"Tovonlar bilan itarib dumbani ko'taring, tepada 2 soniya ushlang. Bel emas, dumba ishlaydi."],
-calf:["Oyoq uchiga ko'tarilish",'calf','standing calf raise proper form',"Devorga tayanib, tovonni sekin ko'tarib, sekin tushiring."],
+bridge:["Yotib dumbani ko'tarish",'bridge','glute bridge proper form',"Gantelni tos ustiga qo'yib ushlang. Tovonlar bilan itarib dumbani ko'taring, tepada 2 soniya ushlang."],
+calf:["Oyoq uchiga ko'tarilish",'calf','standing calf raise proper form',"Ikki qo'lda gantel (yoki bir qo'lda gantel, ikkinchisi devorda). Tovonni sekin ko'tarib, sekin tushiring."],
 plank:["Planka",'plank','plank exercise proper form',"Tirsak va oyoq uchida. Bel tushib ketmasin, qorin va dumba tarang."],
 row:["Egilib gantel tortish",'row','one arm dumbbell row proper form',"Bir qo'l va tizza stulda, ikkinchi qo'l gantelni beliga tortadi. Orqa tekis, tepada 1 soniya ushlang."],
 neg:["Turnikda sekin tushish",'neg','negative pull ups for beginners',"Stul yordamida iyakni turnikdan oshiring, keyin 4–5 soniyada sekin tushing. Bu tortilishni o'rgatadi."],
@@ -191,12 +199,16 @@ bike:["Velosiped (press)",'bike','bicycle crunch proper form',"Tirsakni qarama-q
 legraise:["Oyoq ko'tarish (press)",'legraise','lying leg raise proper form',"Chalqancha yotib, bel yerga yopishgan holda oyoqlarni tepaga ko'taring va sekin tushiring."],
 side:["Yon planka",'side','side plank proper form beginner',"Yonboshda tirsakka tayanib, tosni ko'taring. Qiyin bo'lsa tizzadan bajaring."],
 sideKnee:["Yon planka (tizzadan)",'side','modified side plank on knees',"Yonboshda tirsak va tizzaga tayanib, tosni ko'taring."],
-chair:["Stulga o'tirib-turish",'chair','chair sit to stand exercise',"Stulga sekin o'tiring va qo'lsiz turing. Tizza oyoq uchi tomonga.","Tizza og'risa: stulni balandroq qiling yoki chuqurlikni kamaytiring."],
+chair:["Stulga o'tirib-turish",'chair','chair sit to stand exercise',"Bitta gantelni ko'krak oldida ushlab, stulga sekin o'tiring va qo'lsiz turing. Tizza oyoq uchi tomonga.","Tizza og'risa: stulni balandroq qiling yoki chuqurlikni kamaytiring."],
 incline:["Stolga tayanib otjimaniya",'incline','incline push up proper form',"Qo'llar mustahkam stol chetida, tana tekis. Ko'krakni stolga yaqinlashtiring."],
 birddog:["Qush-it (bird-dog)",'birddog','bird dog exercise proper form',"To'rt oyoqda turib qarama-qarshi qo'l va oyoqni cho'zing, 2 soniya ushlang."],
-deadbug:["O'lik nuqta (dead bug)",'deadbug','dead bug exercise proper form',"Chalqancha yotib, bel yerga yopishgan holda qarama-qarshi qo'l-oyoqni sekin cho'zing."],
+deadbug:["O'lik nuqta (dead bug)",'deadbug','dead bug exercise proper form',"Har qo'lda gantel. Chalqancha yotib, bel yerga yopishgan holda qarama-qarshi qo'l-oyoqni sekin cho'zing."],
 carry:["Gantel ko'tarib yurish",'carry','farmer carry dumbbell proper form',"Ikki qo'lda gantel, qaddi tik, xonada aylanib yuring."],
 march:["Tizzani baland ko'tarib yurish",'march','high knee march low impact',"Joyida turib tizzalarni navbat bilan bel balandligigacha ko'taring, qo'llar ham ishlaydi."],
+floorpress:["Yerda gantel jimi (ko'krak)",'floorpress','dumbbell floor press proper form',"Chalqancha yotib, tizzalar bukilgan. Tirsaklar yerga tekkuncha tushiring, gantellarni ko'krak ustidan tepaga itaring."],
+frontraise:["Gantelni oldinga ko'tarish",'frontraise','dumbbell front raise proper form',"Qo'llar sal bukilgan holda gantellarni yelka balandligigacha oldinga ko'taring, 3 soniyada tushiring."],
+thruster:["O'tirib-turib press (thruster)",'thruster','dumbbell thruster proper form',"Gantellar yelkada: o'tiring, turayotganda gantellarni tepaga itaring. Bitta uzluksiz harakat."],
+pullover:["Yotib bosh ortiga olish (pullover)",'pullover','dumbbell pullover on floor proper form',"Chalqancha yotib, bitta gantelni ikki qo'llab ko'krak ustidan bosh ortiga sekin tushiring va qaytaring. Bel yerdan ko'tarilmasin."],
 rdlD:["Gantel bilan egilish (yengil)",'rdl','dumbbell romanian deadlift proper form',"Orqa butunlay tekis, faqat son orqasi cho'zilguncha egiling.","Bel og'risa: bu mashq o'rniga «Yotib dumbani ko'tarish»ni bajaring."]
 };
 const WARM={n:"Isinish",an:'march',q:'10 minute warm up before workout at home',t:"Joyida yurish 2 daq · qo'l va yelkani aylantirish 1 daq · tos va tizzani aylantirish 1 daq · 10 ta yengil o'tirib-turish · 10 ta devorga otjimaniya · 20 soniya planka. Ikki marta takrorlang."};
@@ -205,9 +217,9 @@ const COOL={n:"Cho'zilish",q:'10 minute full body stretch after workout',t:"Son 
 /* ---------- Dasturlar ---------- */
 const P={
 son:{name:"O'g'lim",info:{h:162,kg:73,age:14},rest:60,sets:[2,3,3],work:[30,40,45],crest:[30,20,15],
- A:{t:"Oyoq va ko'krak",items:[['squat','12','15','15'],['pushup','8','10','12'],['lunge','8 har oyoq','10 har oyoq','12 har oyoq'],['dip','6','8','10'],['bridge','15','20','20'],['calf','15','20','25'],['plank','30 son','40 son','50 son']],fin:['jumpsquat','climber','pushup','plank'],fr:[2,3,3]},
- B:{t:"Orqa, yelka va qo'llar",items:[['row',"12 har qo'l","15 har qo'l","15 har qo'l"],['neg','3','5','6'],['rdl','12','15','15'],['press','10','12','15'],['curl','12','15','15'],['tri','12','15','15'],['hang','20 son','30 son','40 son'],['superman','10','12','15']],fin:['climber','superman','bike','side'],fr:[2,3,3]},
- C:{t:"Butun tana — aylana",circ:['squat','pushup','row','lunge','climber','press','jumpsquat','plank'],cr:[3,4,5]},
+ A:{t:"Oyoq va ko'krak",items:[['squat','12','15','20'],['floorpress','12','15','20'],['lunge','8 har oyoq','10 har oyoq','12 har oyoq'],['pushup','8','10','12'],['bridge','15','20','20'],['calf','15','20','25'],['plank','30 son','40 son','50 son']],fin:['thruster','climber','floorpress','plank'],fr:[2,3,3]},
+ B:{t:"Orqa, yelka va qo'llar",items:[['row',"12 har qo'l","15 har qo'l","15 har qo'l"],['neg','3','5','6'],['rdl','12','15','15'],['press','10','12','15'],['curl','12','15','20'],['tri','12','15','20'],['pullover','12','15','15'],['hang','20 son','30 son','40 son']],fin:['dip','superman','frontraise','side'],fr:[2,3,3]},
+ C:{t:"Butun tana — aylana",circ:['thruster','pushup','row','lunge','climber','curl','jumpsquat','plank'],cr:[3,4,5]},
  core:{t:"Press va muvozanat",circ:['deadbug','birddog','side','bridge','legraise','plank'],cr:[2,3,3]},
  cc:['bike','legraise','plank','side'],ccr:[2,2,3],
  cardio:[
@@ -219,9 +231,9 @@ son:{name:"O'g'lim",info:{h:162,kg:73,age:14},rest:60,sets:[2,3,3],work:[30,40,4
  hint:"Haftada bir marta, ertalab nonushtadan oldin torting.",
  goal:"O'g'il o'sish davrida: bo'yi o'sib, vazni joyida tursa ham bu yaxshi natija. Oyiga 1–2 kg dan tez ozish shart emas — kuch va chidamlilik oshishi muhimroq."},
 dad:{name:'Men',info:{h:170,kg:93,age:39},rest:60,sets:[2,3,3],work:[30,35,40],crest:[30,25,20],
- A:{t:"Oyoq va ko'krak",items:[['chair','10','12','15'],['incline','10','12','15'],['bridge','12','15','20'],['pressSeat','10','12','15'],['calf','15','20','20'],['deadbug','8 har tomon','10 har tomon','12 har tomon'],['sideKnee','20 son','30 son','40 son']],fin:['march','chair','incline','bridge'],fr:[2,3,3]},
- B:{t:"Orqa, yelka va qo'llar",items:[['row',"12 har qo'l","15 har qo'l","15 har qo'l"],['halfhang','20 son','30 son','40 son'],['rdlD','10','12','12'],['curl','12','15','15'],['tri','10','12','15'],['carry','40 son','60 son','60 son'],['birddog','8 har tomon','10 har tomon','12 har tomon']],fin:['march','carry','birddog','deadbug'],fr:[2,3,3]},
- C:{t:"Butun tana — aylana",circ:['chair','incline','row','march','bridge','pressSeat','deadbug','carry'],cr:[3,4,4]},
+ A:{t:"Oyoq va ko'krak",items:[['chair','10','12','15'],['floorpress','12','15','20'],['bridge','12','15','20'],['pressSeat','10','12','15'],['calf','15','20','20'],['frontraise','10','12','15'],['deadbug','8 har tomon','10 har tomon','12 har tomon']],fin:['march','chair','incline','sideKnee'],fr:[2,3,3]},
+ B:{t:"Orqa, yelka va qo'llar",items:[['row',"12 har qo'l","15 har qo'l","15 har qo'l"],['halfhang','20 son','30 son','40 son'],['rdlD','10','12','12'],['curl','12','15','20'],['tri','10','12','15'],['pullover','10','12','15'],['carry','40 son','60 son','60 son'],['birddog','8 har tomon','10 har tomon','12 har tomon']],fin:['march','carry','birddog','deadbug'],fr:[2,3,3]},
+ C:{t:"Butun tana — aylana",circ:['chair','floorpress','row','march','bridge','pressSeat','curl','carry'],cr:[3,4,4]},
  core:{t:"Bel va muvozanat",circ:['deadbug','birddog','sideKnee','bridge','march'],cr:[2,3,3]},
  cc:['deadbug','birddog','sideKnee'],ccr:[2,2,3],
  cardio:[
@@ -254,20 +266,24 @@ pressSeat:A({l1:[90,0],l2:[90,0],a1:[20,180],a2:[20,180],anc:['f1',118,150]},{a1
 curl:A({},{a1:[5,140],a2:[5,140]},{db:[1,1],d:2600}),
 tri:A({a1:[180,-15],a2:[180,-15]},{a1:[180,180],a2:[180,180]},{db:[1,0],d:2800}),
 dip:A({a1:[-20,0],a2:[-20,0],l1:[80,5],l2:[80,5],anc:['h1',70,113]},{a1:[-80,10],a2:[-80,10],l1:[100,10],l2:[100,10]},{chair:[38,115]}),
-bridge:A({t:-90,a1:[90,90],a2:[90,90],l1:[140,10],l2:[140,10],anc:['f1',138,150]},{t:-110,a1:[100,95],a2:[100,95],l1:[115,-15],l2:[115,-15]}),
+bridge:A({t:-90,a1:[90,90],a2:[90,90],l1:[140,10],l2:[140,10],anc:['f1',138,150]},{t:-110,a1:[100,95],a2:[100,95],l1:[115,-15],l2:[115,-15]},{db:[1,0]}),
+floorpress:A({t:-90,a1:[90,180],a2:[90,180],l1:[140,10],l2:[140,10],anc:['f1',138,150]},{a1:[180,180],a2:[180,180]},{db:[1,1]}),
+pullover:A({t:-90,a1:[180,180],a2:[180,180],l1:[140,10],l2:[140,10],anc:['f1',138,150]},{a1:[-100,-100],a2:[-100,-100]},{db:[1,0],d:3600}),
+frontraise:A({},{a1:[95,95],a2:[95,95]},{db:[1,1],d:3000}),
+thruster:A({t:30,a1:[40,180],a2:[40,180],l1:[80,-25],l2:[80,-25]},{t:0,a1:[180,180],a2:[180,180],l1:[0,0],l2:[0,0]},{db:[1,1],d:2400}),
 bike:A({t:-75,a1:[-150,-40],a2:[-150,-40],l1:[150,60],l2:[100,95],anc:['hip',112,142]},{t:-80,l1:[100,95],l2:[150,60]},{d:2000}),
 legraise:A({t:-90,a1:[90,90],a2:[90,90],l1:[84,84],l2:[84,84],anc:['hip',100,146]},{l1:[172,172],l2:[172,172]},{d:3400}),
 superman:A({t:90,a1:[90,90],a2:[90,90],l1:[-90,-90],l2:[-90,-90],anc:['hip',100,147]},{t:79,a1:[100,100],a2:[100,100],l1:[-99,-99],l2:[-99,-99]},{d:2800}),
 climber:A({t:66,l1:[-66,-66],l2:[50,-40],anc:['h1',138,150]},{l1:[50,-40],l2:[-66,-66]},{d:900}),
 jumpsquat:A({t:30,a1:[-35,-35],a2:[-35,-35],l1:[80,-25],l2:[80,-25]},{t:0,a1:[165,165],a2:[165,165],l1:[0,0],l2:[0,0],anc:['f1',100,122]},{d:1400}),
-chair:A({a1:[90,90],a2:[90,90],anc:['f1',112,150]},{t:30,a1:[95,95],a2:[95,95],l1:[88,-15],l2:[88,-15]},{chair:[64,126]}),
+chair:A({a1:[30,160],a2:[30,160],anc:['f1',112,150]},{t:30,a1:[60,170],a2:[60,170],l1:[88,-15],l2:[88,-15]},{chair:[64,126],db:[1,0]}),
 incline:A({t:45,a1:[45,45],a2:[45,45],l1:[-45,-45],l2:[-45,-45],anc:['h1',152,115]},{t:50,a1:[-60,50],a2:[-60,50],l1:[-50,-50],l2:[-50,-50]},{table:[138,115]}),
 halfhang:A({a1:[180,180],a2:[180,180],l1:[80,0],l2:[80,0],anc:['h1',105,40]},{l1:[68,-12],l2:[68,-12]},{bar:40,d:2600}),
 birddog:A({t:66,l1:[0,-90],l2:[0,-90],anc:['k1',82,150]},{a1:[110,100],l2:[-95,-95]}),
 carry:A({l1:[20,0],l2:[-20,-25],anc:['hip',100,101]},{l1:[-20,-25],l2:[20,0]},{db:[1,1],d:1100}),
-deadbug:A({t:-90,a1:[180,180],a2:[180,180],l1:[180,90],l2:[180,90],anc:['hip',112,144]},{a1:[-90,-90],l2:[95,95]}),
+deadbug:A({t:-90,a1:[180,180],a2:[180,180],l1:[180,90],l2:[180,90],anc:['hip',112,144]},{a1:[-90,-90],l2:[95,95]},{db:[1,1]}),
 side:A({t:-80,a1:[0,-90],a2:[0,-90],l1:[60,90],l2:[60,90],anc:['e1',70,148]},{t:-70,l1:[67,90],l2:[67,90]}),
-calf:A({},{anc:['f1',100,142]},{d:2000}),
+calf:A({},{anc:['f1',100,142]},{d:2000,db:[1,1]}),
 march:A({a1:[-30,-20],a2:[30,70],l1:[85,0],l2:[0,0],anc:['hip',100,98]},{a1:[30,70],a2:[-30,-20],l1:[0,0],l2:[85,0]},{d:1100}),
 walk:A({t:4,a1:[-20,-10],a2:[20,30],l1:[20,0],l2:[-20,-25],anc:['hip',100,101]},{a1:[20,30],a2:[-20,-10],l1:[-20,-25],l2:[20,0]},{d:1100}),
 run:A({t:15,a1:[-45,45],a2:[45,135],l1:[45,-20],l2:[-30,-75],anc:['hip',100,100]},{a1:[45,135],a2:[-45,45],l1:[-30,-75],l2:[45,-20]},{d:700})};
@@ -299,9 +315,15 @@ const fig=n=>n?`<svg class="an" data-an="${n}" viewBox="0 0 200 160" role="img" 
 const vlink=q=>`<a class="vid" href="${yt(q)}" target="_blank" rel="noopener">${YTI}Videoda ko'rish</a>`;
 
 /* ---------- Holat ---------- */
+/* Ma'lumot kaliti O'ZGARMAYDI — yangi versiyalar eski belgilarni shu yerdan o'qiydi.
+   Ilova ichida qo'shimcha nusxa Capacitor Preferences'da ham saqlanadi. */
+const KEY='uyMashq2',DATA_VER=1;
 let S={who:'son',week:1,data:{}};
-try{const s=JSON.parse(localStorage.getItem('uyMashq2'));if(s)S=Object.assign(S,s)}catch(e){}
-const save=()=>{try{localStorage.setItem('uyMashq2',JSON.stringify(S))}catch(e){}};
+const merge=s=>{if(s&&typeof s==='object'){S=Object.assign(S,s);S.data=S.data||{}}};
+try{merge(JSON.parse(localStorage.getItem(KEY)||localStorage.getItem('uyMashq1')))}catch(e){}
+const PREF=(()=>{try{return window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.Preferences}catch(e){return null}})();
+const save=()=>{S.v=DATA_VER;const j=JSON.stringify(S);try{localStorage.setItem(KEY,j)}catch(e){}
+  if(PREF)try{PREF.set({key:KEY,value:j}).catch(()=>{})}catch(e){}};
 const todayIdx=(new Date().getDay()+6)%7;
 let day=todayIdx;
 const iso=d=>{const z=new Date(d.getTime()-d.getTimezoneOffset()*6e4);return z.toISOString().slice(0,10)};
@@ -333,7 +355,8 @@ function minutes(pl){
 }
 
 /* ---------- Chizish ---------- */
-const exCard=(id,dose,btns)=>{const e=EX[id];return `<div class="ex">${fig(e[1])}<div><div class="hd"><b>${e[0]}</b><span class="dose">${dose}</span></div><p class="tip">${e[3]}</p>${e[4]?`<p class="alt">${e[4]}</p>`:''}${vlink(e[2])}${btns?`<div class="sets">${btns}</div>`:''}</div></div>`};
+const hasDb=id=>{const a=ANIM[EX[id][1]];return a&&(a.db[0]||a.db[1])};
+const exCard=(id,dose,btns)=>{const e=EX[id];return `<div class="ex">${fig(e[1])}<div><div class="hd"><b>${e[0]}</b><span class="dose">${dose}</span></div>${hasDb(id)?'<span class="chip">gantel bilan</span>':''}<p class="tip">${e[3]}</p>${e[4]?`<p class="alt">${e[4]}</p>`:''}${vlink(e[2])}${btns?`<div class="sets">${btns}</div>`:''}</div></div>`};
 let circs=[];
 function renderWorkout(){
   const w=S.week,f=ph(w),p=P[S.who],pl=plan(day),dt=dateOf(day),d=D(),m=d.marks[dt]||{};
@@ -345,7 +368,7 @@ function renderWorkout(){
     if(b.type==='cool')h+=`<div class="blk"><h3>Cho'zilish <small>${b.long?10:6} daq</small></h3></div><div class="ex noan"><div><p class="tip" style="margin:0">${COOL.t}</p>${vlink(COOL.q)}</div></div>`;
     if(b.type==='sets'){
       const ns=p.sets[f];
-      h+=`<div class="blk"><h3>Asosiy mashqlar <small>${ns} set · dam ${p.rest} son</small></h3><p>Setni tugatgach raqamini bosing — dam olish taymeri o'zi boshlanadi.</p></div>`;
+      h+=`<div class="blk"><h3>Asosiy mashqlar <small>${ns} set · dam ${p.rest} son</small></h3><p>Gantel yengil bo'lgani uchun sekin bajaring: <b>3 soniyada tushiring, 1 soniya to'xtang, 1 soniyada ko'taring.</b> Shunda 4 kg ham og'ir tuyuladi. Setni tugatgach raqamini bosing — dam olish taymeri o'zi boshlanadi.</p></div>`;
       h+=b.items.map((it,j)=>{const key=bi+'-'+j;
         const btns=Array.from({length:ns},(_,s)=>`<button data-m="${key}-${s}" data-rest="1" aria-pressed="${!!m[key+'-'+s]}" aria-label="${EX[it[0]][0]}, ${s+1}-set">${s+1}</button>`).join('');
         return exCard(it[0],ns+' × '+it[f+1],btns)}).join('');
@@ -446,7 +469,8 @@ function renderRules(){
   <li>Osh, somsa kabi og'ir taomni kunning birinchi yarmida, porsiyani kichikroq.</li>
   <li>Mashg'ulotdan 1–1,5 soat oldin yengil ovqat, keyin oqsilli ovqat.</li>
   ${son?"<li>Ovqatni qisqartirmaymiz, ovqat tanlovini yaxshilaymiz. O'sayotgan bola nonushtani tashlamasligi kerak.</li>":"<li>Kechki ovqat eng kichik ovqat bo'lsin. Kun bo'yi o'tirsangiz, har soatda 3–5 daqiqa turib yuring.</li>"}
-  <li>4 kg gantel tez orada yengil bo'lib qoladi: ${son?"6–8 kg":"8–10 kg"} gacha yig'ma (vintli) gantel olsangiz, dastur yana samaraliroq bo'ladi.</li>
+  <li>Gantel bilan ishlash ${son?"14 yoshda ham xavfsiz va foydali":"bel va tizzaga zarar bermaydi"} — faqat texnika to'g'ri bo'lsin va og'irlik asta oshirilsin.</li>
+  <li>Barcha takrorlar oson bo'lib qolsa: avval sekinroq bajaring, keyin takrorni oshiring. Keyingi qadam — ${son?"6–8 kg":"8–10 kg"} gacha yig'ma (vintli) gantel. Vaqtincha kitob solingan ryukzak ham og'irlik bo'la oladi.</li>
   </ul><p><b>Maqsad:</b> ${P[S.who].goal}</p>
   <div class="warn">Mashqda keskin og'riq, bosh aylanishi, ko'krak og'rig'i yoki nafas yetishmasligi bo'lsa — darhol to'xtang. ${son?"Boshlashdan oldin o'g'lingizni pediatr yoki maktab shifokoriga ko'rsatib olish tavsiya etiladi.":"Bel yoki tizzada og'riq kuchaysa, o'sha mashqni tashlab, shifokorga ko'rining."}</div>`;
 }
@@ -464,8 +488,16 @@ $('week').innerHTML=Array.from({length:8},(_,i)=>`<option value="${i+1}">${i+1}-
 $('week').onchange=()=>{S.week=+$('week').value;save();renderAll()};
 $('pSon').onclick=()=>{S.who='son';save();stopT();renderAll()};
 $('pDad').onclick=()=>{S.who='dad';save();stopT();renderAll()};
+/* ---------- Zaxira nusxa ---------- */
+const BK=$('bkTxt'),bkMsg=t=>{$('bkMsg').textContent=t};
+$('bkMake').onclick=()=>{BK.value=JSON.stringify(S);BK.focus();BK.select();
+  try{navigator.clipboard.writeText(BK.value).then(()=>bkMsg("Nusxa olindi. Telegram'dagi «Saqlangan xabarlar»ga yuborib qo'ying."),()=>bkMsg("Matnni belgilab, nusxa oling."))}catch(e){bkMsg("Matnni belgilab, nusxa oling.")}};
+$('bkLoad').onclick=()=>{try{const s=JSON.parse(BK.value.trim());if(!s.data)throw 0;S={who:'son',week:1,data:{}};merge(s);save();renderAll();bkMsg("Tiklandi ✓ Barcha belgilar va vaznlar qaytdi.")}catch(e){bkMsg("Matn noto'g'ri. Zaxira nusxani to'liq joylashtiring.")}};
+
 renderAll();
 requestAnimationFrame(tick);
+// localStorage bo'sh bo'lsa (masalan, tizim tozalagan bo'lsa), Preferences'dagi nusxadan tiklash
+if(PREF&&!Object.keys(S.data).length)try{PREF.get({key:KEY}).then(r=>{if(r&&r.value){merge(JSON.parse(r.value));save();renderAll()}}).catch(()=>{})}catch(e){}
 }
 </script>
 </body>
